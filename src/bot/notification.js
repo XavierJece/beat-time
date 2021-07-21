@@ -3,7 +3,7 @@ const path = require('path');
 
 const notifyMe = (message) => {
 
-  const iconPath = path.resolve(__dirname, 'assets', 'icon1.jpg');
+  const iconPath = path.resolve(__dirname, '..', 'assets', 'icon1.jpg');
 
   notifier.notify(
     {
