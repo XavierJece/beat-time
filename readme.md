@@ -89,6 +89,7 @@ To update the image that appears in the notification you just need to update the
 - [puppeteer](https://www.npmjs.com/package/puppeteer)
 - [eferiado](https://www.npmjs.com/package/eferiado)
 - [node-notifier](https://www.npmjs.com/package/node-notifier)
+- [node-cron](https://www.npmjs.com/package/node-cron)
 
 ## Author
 
