@@ -45,7 +45,7 @@ TIMEOUT_SECOND=10
 
 ## Run
 
-Clone repository:
+**Clone repository:**
 ```SHELL
 # SSH
 $ git clone git@github.com:XavierJece/beat-time.git
@@ -54,8 +54,7 @@ $ git clone git@github.com:XavierJece/beat-time.git
 $ git clone https://github.com/XavierJece/beat-time.git
 ```
 
-
-Install dependencies:
+**Install dependencies:**
 ```SHELL
 # YARN 
 $ yarn
@@ -64,7 +63,7 @@ $ yarn
 $ npm i
 ```
 
-Run in Development:
+**Run in Development:**
 ```SHELL
 # YARN 
 $ yarn dev
@@ -73,7 +72,7 @@ $ yarn dev
 $ npm run dev
 ```
 
-Run:
+**Run in Production:**
 ```SHELL
 # under development
 ```
