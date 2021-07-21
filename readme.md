@@ -39,6 +39,8 @@ SITE_URL= url of "dot" in company portal
 
 # Application
 NAME_APPLICATION= notification title
+TOTAL_ATTEMPTS=3
+TIMEOUT_SECOND=10
 ```
 
 ## Run
