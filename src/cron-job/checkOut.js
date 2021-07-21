@@ -2,15 +2,16 @@ const { cronJob } = require("./cronJob");
 
 const checkOut = () => {
 
-  // MON - TUE
-  cronJob("* * * * * *", () => {
+  // MON - TUE (19h)
+  cronJob("0 0 19 * * SUN,TUE,WED,THU", () => {
     console.log("checkOut: MON - TUE");
   });
 
-  // FRI
-  cronJob("* * * * * *", () => {
-    console.log("checkOut: FRI");
+  // FRI (18h
+  cronJob("0 0 18 * * FRI", () => {
+    console.log("checkOut: MON - TUE");
   });
+
 };
 
 module.exports = {
