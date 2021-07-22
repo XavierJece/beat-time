@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { punchAClock } = require("./beatTime");
 const { iHaveJob } = require("./getInfoDay");
 const { notifyMe } = require("./notification");
