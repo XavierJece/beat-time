@@ -73,9 +73,51 @@ $ npm run dev
 ```
 
 **Run in Production:**
-```SHELL
-# under development
-```
+
+To run in production I chose to use `PM2` which is a daemon process manager that will help you manage and maintain your application online.
+
+
+1. Installation PM2
+
+    ```SHELL
+    $ npm install pm2@latest -g
+    # or
+    $ yarn global add pm2
+    ```
+1. Setting of environment variables
+    1. Incoming run times are MON-FRI at 9am. If it is different, change the cronTime in the `cron-job/checkIn.js` file.
+    1. Departure times are MON-THU at 7pm and FRI at 6pm. If different, change the cronTime in the `cron-job/checkOut.js` file.
+    1. Edit NODE_ENV for PRODUCTION in `.env`: `NODE_ENV=PRODUCTION`
+1. Running project by PM2
+    ```SHELL
+    # The project name is already your choice, I decided as bot-punch_a_clock
+    $ pm2 start ./src/index.js --name bot-punch_a_clock
+    ```
+1. Configuring the restart process when the machine powers up
+    ```SHELL
+    # You should replace {SO} with the distribution you are using example: ubuntu
+    # You must replace {user} with the name of the user who created the example process: joe_doe
+    # Complete command example: pm2 startup ubuntu -u joe_doe
+    $ pm2 startup {SO} -u {user}
+    ```
+1. Creating restart point. (When there is any update always do this.)
+    ```SHELL
+    $ pm2 save 
+    ```
+1. Commands to help view process status and updates
+    ```SHELL
+    # See processes in pm2
+    $ pm2 list
+
+    # View logs
+    $ pm2 logs
+
+    # See more detailed logs
+    $ pm2 monit
+
+    # Restart process
+    $ pm2 restart
+    ```
 
 ## Comments
 
@@ -90,6 +132,7 @@ To update the image that appears in the notification you just need to update the
 - [eferiado](https://www.npmjs.com/package/eferiado)
 - [node-notifier](https://www.npmjs.com/package/node-notifier)
 - [node-cron](https://www.npmjs.com/package/node-cron)
+- [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/)
 
 ## Author
 
