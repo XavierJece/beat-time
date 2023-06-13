@@ -2,11 +2,16 @@ const { cronJob } = require("./cronJob");
 const { startBot } = require("../bot");
 
 const checkIn = () => {
-  // MON - FRI (19h)
-  cronJob("0 0 9 * * MON,TUE,WED,THU,FRI", async () => {
-    await startBot();
-    console.log("checkIn: MON - FRI");
-  });
+  const times = JSON.parse(process.env.TIME_BOT_CHECK_IN);
+
+  Object.entries(times).forEach(([log, cronString]) => {
+    cronJob(cronString, async () => {
+      console.log(`checkIn: ${log}`);
+      await startBot();
+    });
+  })
+
+  
 };
 
 module.exports = {

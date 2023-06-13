@@ -22,21 +22,21 @@ const startBot = async () => {
   const today = new Date();
   // const tomorrow = new Date(today.setDate(today.getDate() + 0));
 
-
-  //Get delay for execution
-  const randomMinutes = Math.floor(Math.random() * 19);
-  const messageInfoDelay = `I have already checked in. I will wait ${randomMinutes} minutes to clock out!`
-
-  console.log(messageInfoDelay);
-  notifyMe(messageInfoDelay);
-  
-  await delayExecution( randomMinutes * 60 * 1000);
-
-
   let fullMessage = messages.dayOff;
 
   if (iHaveJob(today, ufCompany)) {
     console.log(`I have a job!!`);
+
+      //Get delay for execution
+      const randomMinutes = Math.floor(Math.random() * process.env.TIME_BOT_MAX_DELAY_MINUTES);
+      const messageInfoDelay = `I have already checked in. I will wait ${randomMinutes} minutes to clock out!`
+
+      console.log(messageInfoDelay);
+      notifyMe(messageInfoDelay);
+      
+      await delayExecution( randomMinutes * 60 * 1000);
+
+
     const { status, message } = await punchAClock();
 
     fullMessage = `${messages[status]}${message}`;
