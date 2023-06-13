@@ -13,7 +13,8 @@ In order not to have to log into the company's portal every day, I had the idea 
   - [ ] Test on MacOS;
 - [x] Create exception handling;
 - [x] Try at least 3 times if there is an error;
-- [ ] Create a script (cron) to boot at the start and end times of the workday.
+- [x] Create a script (cron) to boot at the start and end times of the workday.
+- [x] Create a delay in bot.
 
 ### Extra Goals
 

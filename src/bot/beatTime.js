@@ -47,11 +47,13 @@ const registeredHour = (message) => {
 };
 
 const punchAClock = async (attempt = 0) => {
-  const browser = await puppeteer.launch({ headless: !UnderDevelopment });
+  const browser = await puppeteer.launch({ headless: !UnderDevelopment, 
+    ignoreDefaultArgs: ['--disable-extensions'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'], });
 
   try {
     const page = await browser.newPage();
-    await page.goto(`${process.env.SITE_URL}`);
+    await page.goto(`${process.env.SITE_URL}`, { waitUntil: 'load', });
 
     await page.waitForNavigation({ timeout: TIMEOUT });
     await page.waitForNavigation({ timeout: TIMEOUT });
@@ -63,7 +65,9 @@ const punchAClock = async (attempt = 0) => {
 
     console.log("Loading...");
 
-    await punchTheClock(page);
+    if(!UnderDevelopment){
+      await punchTheClock(page);
+    }
 
     const responseMessage = await getResponseMessage(page);
 

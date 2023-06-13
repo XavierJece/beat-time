@@ -2,6 +2,12 @@ const { punchAClock } = require("./beatTime");
 const { iHaveJob } = require("./getInfoDay");
 const { notifyMe } = require("./notification");
 
+const  delayExecution = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+
+
 const startBot = async () => {
   const messages = {
     success: "Your point has been hit!! 😜\n",
@@ -15,6 +21,17 @@ const startBot = async () => {
   //Get date today
   const today = new Date();
   // const tomorrow = new Date(today.setDate(today.getDate() + 0));
+
+
+  //Get delay for execution
+  const randomMinutes = Math.floor(Math.random() * 19);
+  const messageInfoDelay = `I have already checked in. I will wait ${randomMinutes} minutes to clock out!`
+
+  console.log(messageInfoDelay);
+  notifyMe(messageInfoDelay);
+  
+  await delayExecution( randomMinutes * 60 * 1000);
+
 
   let fullMessage = messages.dayOff;
 
