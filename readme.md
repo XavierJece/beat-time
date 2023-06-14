@@ -22,31 +22,36 @@ In order not to have to log into the company's portal every day, I had the idea 
 - [ ] Add Eslint and Prettier;
 - [ ] Add commit pattern and validation before commit and push;
 - [ ] Refactor to TypeScript;
-- [ ] Leave the hit point script generic;
+- [x] Leave the hit point script generic;
 - [ ] Create installer (.deb, .exe ...);
 - [ ] Create interface for configuration (Update image, login, pass ...).
 
 ## Environment Variables
 
 Add your application configuration to your .env file in the root of your project:
-```
+```env
 ## Environment
 NODE_ENV=DEVELOPMENT
 
 #Credentials
-SITE_LOGIN= your login on company portal
-SITE_PASS= your password on company portal
-SITE_URL= url of "dot" in company portal
+SITE_LOGIN="your login on company portal"
+SITE_PASS="your password on company portal"
+SITE_URL="url of \"dot\" in company portal"
+
+# Time executions
+TIME_BOT_MAX_DELAY_MINUTES="Delay the bot's execution after the cron job."
+TIME_BOT_CHECK='{"cronJobKey": "cronString"}'
 
 # Application
-NAME_APPLICATION= notification title
+NAME_APPLICATION="Notification Title"
 TOTAL_ATTEMPTS=3
-TIMEOUT_SECOND=10
+TIMEOUT_SECOND=20
 ```
 
 ## Run
 
-**Clone repository:**
+### Clone repository:
+
 ```SHELL
 # SSH
 $ git clone git@github.com:XavierJece/beat-time.git
@@ -55,7 +60,8 @@ $ git clone git@github.com:XavierJece/beat-time.git
 $ git clone https://github.com/XavierJece/beat-time.git
 ```
 
-**Install dependencies:**
+### Install dependencies:
+
 ```SHELL
 # YARN 
 $ yarn
@@ -64,7 +70,8 @@ $ yarn
 $ npm i
 ```
 
-**Run in Development:**
+### Run in Development:
+
 ```SHELL
 # YARN 
 $ yarn dev
@@ -73,28 +80,76 @@ $ yarn dev
 $ npm run dev
 ```
 
-**Run in Production:**
+### Run in Production:
 
 To run in production I chose to use `PM2` which is a daemon process manager that will help you manage and maintain your application online.
 
 
-1. Installation PM2
+#### Installation PM2
 
-    ```SHELL
-    $ npm install pm2@latest -g
-    # or
-    $ yarn global add pm2
+```SHELL
+$ npm install pm2@latest -g
+# or
+$ yarn global add pm2
+```
+
+##### Setting of environment variables
+
+1. Add the run time schedules to the .env file in the variable TIME_BOT_CHECK. **Note:** despite being a string, write the rules as a JSON list, where the key is the job ID and the value is the schedule string. Example: 
+    
+    ```json 
+    {
+        "job1": "0 8 * * MON-FRI",
+        "job2": "30 12 * * MON-FRI",
+        "job3": "0 18 * * MON-FRI"
+    }
     ```
-1. Setting of environment variables
-    1. Incoming run times are MON-FRI at 9am. If it is different, change the cronTime in the `cron-job/checkIn.js` file.
-    1. Departure times are MON-THU at 7pm and FRI at 6pm. If different, change the cronTime in the `cron-job/checkOut.js` file.
-    1. Edit NODE_ENV for PRODUCTION in `.env`: `NODE_ENV=PRODUCTION`
-1. Running project by PM2
-    ```SHELL
-    # The project name is already your choice, I decided as bot-punch_a_clock
-    $ pm2 start ./src/index.js --name bot-punch_a_clock
-    ```
+
+    1. In the example above, we have three job entries (job1, job2, job3) with their respective schedule strings. Each schedule string follows the cron format, specifying the desired time and days of the week for the job to run.
+
+    1. Cron Syntax [more documentation](https://github.com/node-cron/node-cron#cron-syntax)
+
+        1. Allowed fields
+
+            ```
+            # ┌────────────── second (optional)
+            # │ ┌──────────── minute
+            # │ │ ┌────────── hour
+            # │ │ │ ┌──────── day of month
+            # │ │ │ │ ┌────── month
+            # │ │ │ │ │ ┌──── day of week
+            # │ │ │ │ │ │
+            # │ │ │ │ │ │
+            # * * * * * *
+            ```
+
+        1. Allowed values
+
+            |     field    |        value        |
+            |--------------|---------------------|
+            |    second    |         0-59        |
+            |    minute    |         0-59        |
+            |     hour     |         0-23        |
+            | day of month |         1-31        |
+            |     month    |     1-12 (or names) |
+            |  day of week |     0-7 (or names, 0 or 7 are sunday)  |
+
+
+1. Add a delay time, in minutes, to the bot's execution after the cron job in the `.env` file. Example: `TIME_BOT_MAX_DELAY_MINUTES=5`.
+
+1. Update the NODE_ENV value to PRODUCTION in the `.env` file . Example: `NODE_ENV=PRODUCTION`.
+
+1. Finally, add the company information to the variables: `SITE_LOGIN`, `SITE_PASS` and `SITE_URL`.
+
+##### Running project by PM2
+
+```SHELL
+# The project name is already your choice, I decided as bot-punch_a_clock
+$ pm2 start ./src/index.js --name bot-punch_a_clock
+```
+
 1. Configuring the restart process when the machine powers up
+
     ```SHELL
     # You should replace {SO} with the distribution you are using example: ubuntu
     # You must replace {user} with the name of the user who created the example process: joe_doe
@@ -107,17 +162,17 @@ To run in production I chose to use `PM2` which is a daemon process manager that
     ```
 1. Commands to help view process status and updates
     ```SHELL
-    # See processes in pm2
+    # See processes in pm2.
     $ pm2 list
 
-    # View logs
+    # View logs.
     $ pm2 logs
 
-    # See more detailed logs
+    # See more detailed logs.
     $ pm2 monit
 
-    # Restart process
-    $ pm2 restart
+    # Restart the process. NOTE: If you change the name of the process, you must also change it here.
+    $ pm2 restart bot-punch_a_clock
     ```
 
 ## Comments
@@ -141,7 +196,7 @@ To update the image that appears in the notification you just need to update the
 
 - LinkedIn  [@xavierjece](https://www.linkedin.com/in/xavierjece/)
 - GitHub    [@xavierjece](https://github.com/XavierJece)
-- Instagram [@jecexavier](https://www.instagram.com/jecexavier/)
+- Instagram [@xavierjece](https://www.instagram.com/xavierjece/)
 
 ## Contributions
 
