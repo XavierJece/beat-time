@@ -2,11 +2,12 @@ const { punchAClock } = require("./beatTime");
 const { iHaveJob } = require("./getInfoDay");
 const { notifyMe } = require("./notification");
 
-const  delayExecution = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
+const UnderDevelopment =
+  `${process.env.NODE_ENV}` === "DEVELOPMENT" ? true : false;
 
-
+const delayExecution = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
 const startBot = async () => {
   const messages = {
@@ -27,15 +28,19 @@ const startBot = async () => {
   if (iHaveJob(today, ufCompany)) {
     console.log(`I have a job!!`);
 
+    if (!UnderDevelopment) {
       //Get delay for execution
-      const randomMinutes = Math.floor(Math.random() * process.env.TIME_BOT_MAX_DELAY_MINUTES);
-      const messageInfoDelay = `I have already checked in. I will wait ${randomMinutes} minutes to clock out!`
+      const randomMinutes = Math.floor(
+        Math.random() * process.env.TIME_BOT_MAX_DELAY_MINUTES
+      );
+      const messageInfoDelay = `I have already checked in. I will wait ${randomMinutes} minutes to clock out!`;
 
       console.log(messageInfoDelay);
       notifyMe(messageInfoDelay);
-      
-      await delayExecution( randomMinutes * 60 * 1000);
 
+      //Delay for execution
+      await delayExecution(randomMinutes * 60 * 1000);
+    }
 
     const { status, message } = await punchAClock();
 
@@ -47,6 +52,5 @@ const startBot = async () => {
 };
 
 module.exports = {
-  startBot
-}
-
+  startBot,
+};

@@ -11,7 +11,11 @@ const check = () => {
     console.log("ERROR: TIME_BOT_CHECK is not valid JSON");
   }
 
-  const cronJobsKey = Object.keys(times)
+  const cronJobsKey = Object.entries(times).map(([log, cronString]) => {
+    const [min, hour] = cronString.split(' ')
+
+    return `\n  ${log} as ${hour}:${min}`
+  })
 
   console.log(`Foi encontrado ${cronJobsKey.length} regras para o bot: ${cronJobsKey.join(', ')}.`);
 
